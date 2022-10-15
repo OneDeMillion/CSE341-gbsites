@@ -1,0 +1,24 @@
+### GET ALL MUSEUMS
+GET http://localhost:8080/museums
+
+### GET ONE MUSEUM
+
+GET http://localhost:8080/museums/6349dc293f4e419311c4352a
+
+### GET ALL CASTLES
+GET http://localhost:8080/castles
+
+### GET ONE MUSEUM
+GET http://localhost:8080/castles/6349f5703f4e419311c43533
+
+### POST A MUSEUM
+
+### POST A CASTLE
+
+### DELETE A MUSEUM
+
+### DELETE A CASTLE
+
+### PUT A MUSEUM
+
+### PUT A CASTLE

@@ -1,0 +1,27 @@
+const MongoClient = require('mongodb').MongoClient;
+
+let _db;
+
+const initDb = (callback) => {
+    if (_db) {
+        console.log('DB is already installed!');
+        return callback(null, _db);
+    }
+    MongoClient.connect(process.env.DB_CONNECTION_STRING)
+    .then((client) => {
+        _db = client;
+        callback(null, _db);
+    })
+    .catch((err) => {
+        callback(err);
+    });
+};
+
+const getDb = () => {
+    if (!_db) {
+        throw Error('DB is not initialized');
+    }
+    return _db;
+};
+
+module.exports = {initDb, getDb};

@@ -1,0 +1,112 @@
+const mongodb = require('../initializers/db');
+const ObjectId = require('mongodb').ObjectId;
+
+const getAll = async (req, res) => {
+
+    try {
+        const result = await mongodb
+        .getDb()
+        .db('CSE341')
+        .collection('museums')
+        .find();
+    result.toArray().then((lists) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(200).json(lists);
+    });    
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+};
+
+const getOne = async (req, res) => {
+    try {
+        const museumId = new ObjectId(req.params.id);
+        const result = await mongodb
+            .getDb()
+            .db('CSE341')
+            .collection('museums')
+            .find({_id: museumId});
+        result.toArray().then((lists) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(lists[0]);
+        })
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+};
+
+const createOne = async (req, res) => {
+    try {
+        const museum = {
+            museumName: req.body.museumName,
+            streetAddr: req.body.streetAddr,
+            cityAddr: req.body.cityAddr,
+            postcode: req.body.postcode,
+            phoneNum: req.body.phoneNum,
+            website: req.body.website,
+            description: req.body.description
+        };
+        const response = await mongodb
+            .getDb()
+            .db('CSE341')
+            .collection('museums')
+            .insertOne(museum);
+        if (response.acknowledged) {
+            res.status(201).json(response);
+        } else {
+            res.status(500).json(response.error);
+        }
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+};
+
+const updateOne = async (req, res) => {
+    try {
+        const museumId = new ObjectId(req.params.id);
+        const museum = {
+            museumName: req.body.museumName,
+            streetAddr: req.body.streetAddr,
+            cityAddr: req.body.cityAddr,
+            postcode: req.body.postcode,
+            phoneNum: req.body.phoneNum,
+            website: req.body.website,
+            description: req.body.description
+        };
+        const response = await mongodb
+        .getDb()
+        .db('CSE341')
+        .collection('museums')
+        .replaceOne({_id: museumId, museum});
+        // console.log(response);
+        if (response.modifiedCount > 0) {
+            console.log(res.status);
+            res.status(204).send();
+        } else {
+            res.status(500).json(response.error);
+        }
+    } catch (err) {
+        res.status(500).json(response.error);
+    }
+};
+
+const deleteOne = async (req, res) => {
+    try {
+        const museumId = new ObjectId(req.params.id);
+        const response = await mongodb
+        .getDb()
+        .db('CSE341')
+        .collection('museums')
+        .deleteOne({_id: museumId}, true);
+        console.log(response);
+        if (response.deletedCount > 0) {
+            res.status(200).send({response, status: 200});
+        } else {
+            res.status(500).json(response.error);
+        }
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+};
+
+module.exports = {getAll, getOne, createOne, updateOne, deleteOne}
