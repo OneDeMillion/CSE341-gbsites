@@ -2,7 +2,7 @@ const mongodb = require('../initializers/db');
 const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
-
+    // #swagger.description = "Gets all museums in collection"
     try {
         const result = await mongodb
         .getDb()
@@ -19,6 +19,7 @@ const getAll = async (req, res) => {
 };
 
 const getOne = async (req, res) => {
+    // #swagger.description = "Gets one specific museum in collection selected by id"
     try {
         const museumId = new ObjectId(req.params.id);
         const result = await mongodb
@@ -36,6 +37,7 @@ const getOne = async (req, res) => {
 };
 
 const createOne = async (req, res) => {
+    // #swagger.description = "Create one museum in collection"
     try {
         const museum = {
             museumName: req.body.museumName,
@@ -62,6 +64,7 @@ const createOne = async (req, res) => {
 };
 
 const updateOne = async (req, res) => {
+    // #swagger.description = "Updates one specific museum in collection selected by id"
     try {
         const museumId = new ObjectId(req.params.id);
         const museum = {
@@ -77,7 +80,7 @@ const updateOne = async (req, res) => {
         .getDb()
         .db('GBSites')
         .collection('museums')
-        .replaceOne({_id: museumId, museum});
+        .replaceOne({_id: museumId}, museum);
         // console.log(response);
         if (response.modifiedCount > 0) {
             console.log(res.status);
@@ -91,6 +94,7 @@ const updateOne = async (req, res) => {
 };
 
 const deleteOne = async (req, res) => {
+    // #swagger.description = "Deletes one specific museum in collection selected by id"
     try {
         const museumId = new ObjectId(req.params.id);
         const response = await mongodb

@@ -13,7 +13,7 @@ router.get('/:id', museumsController.getOne);
 router.post('/', museumsController.createOne);
 
 // updates a museum document identified by id
-router.post('/:id', museumsController.updateOne);
+router.put('/:id', museumsController.updateOne);
 
 // deletes a museum document identified by id
 router.delete('/:id', museumsController.deleteOne);

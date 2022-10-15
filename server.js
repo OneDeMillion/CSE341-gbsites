@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const mongodb = require('./initializers/db'); 
 const port = process.env.PORT || 8080;
+const swaggerAutogen = require('swagger-autogen')();
 
 //middlewares -- function that executes when a specific route is being hit
 app

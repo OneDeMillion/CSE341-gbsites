@@ -13,11 +13,10 @@ router.get('/:id', castlesController.getOne);
 router.post('/', castlesController.createOne);
 
 // updates a castle document identified by id
-router.post('/:id', castlesController.updateOne);
+router.put('/:id', castlesController.updateOne);
 
 // deletes a castle document identified by id
 router.delete('/:id', castlesController.deleteOne);
-
 
 
 module.exports = router;

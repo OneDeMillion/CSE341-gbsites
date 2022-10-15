@@ -2,7 +2,7 @@ const mongodb = require('../initializers/db');
 const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
-
+    // #swagger.description = "Gets all castles in collection"
     try {
         const result = await mongodb
         .getDb()
@@ -19,6 +19,7 @@ const getAll = async (req, res) => {
 };
 
 const getOne = async (req, res) => {
+    // #swagger.description = "Gets one castle in collection selected by id"
     try {
         const castleId = new ObjectId(req.params.id);
         const result = await mongodb
@@ -36,6 +37,7 @@ const getOne = async (req, res) => {
 };
 
 const createOne = async (req, res) => {
+    // #swagger.description = "Creates one castle in collection"
     try {
         const castle = {
             castleName: req.body.castleName,
@@ -62,6 +64,7 @@ const createOne = async (req, res) => {
 };
 
 const updateOne = async (req, res) => {
+    // #swagger.description = "Updates one specific castle in collection selected by id"
     try {
         const castleId = new ObjectId(req.params.id);
         const castle = {
@@ -77,7 +80,7 @@ const updateOne = async (req, res) => {
         .getDb()
         .db('GBSites')
         .collection('castles')
-        .replaceOne({_id: castleId, castle});
+        .replaceOne({_id: castleId}, castle);
         // console.log(response);
         if (response.modifiedCount > 0) {
             console.log(res.status);
@@ -91,6 +94,7 @@ const updateOne = async (req, res) => {
 };
 
 const deleteOne = async (req, res) => {
+    // #swagger.description = "Deletes one specific castle in collection selected by id"
     try {
         const castleId = new ObjectId(req.params.id);
         const response = await mongodb
