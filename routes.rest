@@ -12,13 +12,66 @@ GET http://localhost:8080/castles
 GET http://localhost:8080/castles/6349f5703f4e419311c43533
 
 ### POST A MUSEUM
+POST http://localhost:8080/museums HTTP/1.1
+Content-Type: application/json
+
+{
+    "museumName": "Imperial War Museum",
+    "streetAddr": "Lambeth Road",
+    "cityAddr": "London",
+    "postcode": "Se1 6HZ",
+    "phoneNum": "442074165000",
+    "website": "www.iwm.org.uk",
+    "description": "Free museum. Explores conflict from WW1 to present day"
+}
 
 ### POST A CASTLE
+POST http://localhost:8080/castles HTTP/1.1
+Content-Type: application/json
 
-### DELETE A MUSEUM
-
-### DELETE A CASTLE
+{
+    "castleName": "Hampton Court Palace",
+    "streetAddr": "Molesey",
+    "cityAddr": "East Molesey",
+    "postcode": "KT8 9AU",
+    "phoneNum": "442031666000",
+    "website": "www.hrp.org.uk",
+    "description": "Spectacular baroque palace. Experience private life of Henry VIII and his wives."
+}
 
 ### PUT A MUSEUM
+PUT http://localhost:8080/museums/634b05d2f71cc20c247c8cbb HTTP/1.1
+Content-Type: application/json
+
+{
+    "museumName":"Test Museum2",
+    "streetAddr":"museum st",
+    "cityAddr":"uk city",
+    "postcode":"LN1 0LN ",
+    "phoneNum":"44204443333",
+    "website":"www.testmuseum.co.uk", // change the website address
+    "description":"This is a test museum"}
+}
 
 ### PUT A CASTLE
+PUT http://localhost:8080/castles/6349f49b3f4e419311c43532 HTTP/1.1
+Content-Type: application/json
+
+{
+    "castleName":"Windsor Castle",
+    "streetAddr":"Castle Hill",
+    "cityAddr":"Windsor",
+    "postcode":"SL4 1PD",
+    "phoneNum":"443031237334",
+    "website":"www.royalcollection.org.uk", // change the description
+    "description":"Favorite royal residence of Queen Elizabeth II, ordered to be built by William the Conquerer. If the Royal Standard is flying, the Monarch is in Residence."
+}
+
+### DELETE A MUSEUM
+DELETE http://localhost:8080/museums/634b065af71cc20c247c8cbc HTTP/1.1
+
+### DELETE A CASTLE
+DELETE http://localhost:8080/castles/634b0700f71cc20c247c8cc0 HTTP/1.1
+
+###
+
