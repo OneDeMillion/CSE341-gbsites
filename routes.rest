@@ -68,5 +68,79 @@ DELETE http://localhost:8080/museums/634b065af71cc20c247c8cbc HTTP/1.1
 ### DELETE A CASTLE
 DELETE http://localhost:8080/castles/634b0700f71cc20c247c8cc0 HTTP/1.1
 
-###
+/// RENDER MUSEUMS
+### GET ALL MUSEUMS
+GET https://cse341-gbsites.onrender.com/museums
+
+### GET ONE MUSEUM BY ID
+GET https://cse341-gbsites.onrender.com/museums/6349da023f4e419311c43528 
+
+### CREATE ONE MUSEUM
+POST https://cse341-gbsites.onrender.com/museums HTTP/1.1
+Content-Type: application/json
+
+{
+    "museumName": "Big Pit National Coal Museum",
+    "streetAddr": "The Big Pit",
+    "cityAddr": "Blaenafon",
+    "postcode": "NP4 9XP",
+    "phoneNum": "4403001112333",
+    "website": "museum.wales",
+    "description": "Underground tour of real coalmine"
+}
+
+### UPDATE ONE MUSEUM
+PUT https://cse341-gbsites.onrender.com/museums/6349e0d13f4e419311c4352f HTTP/1.1
+Content-Type: application/json
+
+{
+    "museumName":"The Golden Hinde",
+    "streetAddr":"St Mary Overie Dock",
+    "cityAddr":"London",
+    "postcode":"SE1 9DE",
+    "phoneNum":"442074030123",
+    "website":"www.goldenhinde.co.uk",
+    "description":"This working replica of Sir Francis Drake Golden Hinde can be explored"
+}
+
+### DELETE ONE MUSEUM
+DELETE https://cse341-gbsites.onrender.com/museums/634b05d2f71cc20c247c8cbb HTTP/1.1
+
+/// RENDER CASTLES
+### GET ALL CASTLES
+GET https://cse341-gbsites.onrender.com/castles
+
+### GET ONE MUSEUM BY ID
+GET https://cse341-gbsites.onrender.com/castles/6349f37b3f4e419311c43531 
+
+### CREATE ONE MUSEUM
+POST https://cse341-gbsites.onrender.com/castles HTTP/1.1
+Content-Type: application/json
+
+{
+    "castleName": "Dartmouth Castle",
+    "streetAddr": "Castle Road",
+    "cityAddr": "Dartmouth",
+    "postcode": "TQ6 0JN",
+    "phoneNum": "441803834445",
+    "website": "www.english-heritage.org.uk",
+    "description": "Dating back to 1380 at mouth of Dart Estuary, it was an artillary fort, including an iron chain that could stretch the harbour."
+}
+
+### UPDATE ONE MUSEUM
+PUT https://cse341-gbsites.onrender.com/castles/634b0a87dd29b52a753cc927 HTTP/1.1
+Content-Type: application/json
+
+{
+    "castleName":"Hampton Court Palace",
+    "streetAddr":"Molesey",
+    "cityAddr":"East Molesey",
+    "postcode":"KT8 9AU",
+    "phoneNum":"442031666000",
+    "website":"www.hrp.org.uk",
+    "description":"Experience what life was like for Henvry the VIII and his wives in his baroque palace"
+}
+
+### DELETE ONE MUSEUM
+DELETE https://cse341-gbsites.onrender.com/castles/634b06bef71cc20c247c8cbf HTTP/1.1
 
