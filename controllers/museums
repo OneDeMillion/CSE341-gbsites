@@ -1,44 +1,64 @@
+/* eslint-disable no-undef */
 const mongodb = require('../initializers/db');
 const ObjectId = require('mongodb').ObjectId;
+const { validationResult } = require('express-validator');
 
-const getAll = async (req, res) => {
+const getAll = (req, res) => {
     // #swagger.description = "Gets all museums in collection"
     try {
-        const result = await mongodb
+        mongodb
         .getDb()
         .db('GBSites')
         .collection('museums')
-        .find();
-    result.toArray().then((lists) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(lists);
-    });    
+        .find()
+        .toArray((err, lists) => {
+            if (err) {
+              res.status(400).json({ message: err });
+            } else {
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).send(lists);    
+            }
+        });    
     } catch (err) {
-        res.status(500).json({message: err.message});
+        res.status(500).json({message: err.message || 'An error occurred while getting all the museums'});
     }
 };
 
-const getOne = async (req, res) => {
+const getOne = (req, res) => {
+    if(!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('A valid museum id must be used to find a museum')
+    } else {
     // #swagger.description = "Gets one specific museum in collection selected by id"
     try {
-        const museumId = new ObjectId(req.params.id);
-        const result = await mongodb
+        const museumId = new ObjectId(req.params.id); 
+        mongodb
             .getDb()
             .db('GBSites')
             .collection('museums')
-            .find({_id: museumId});
-        result.toArray().then((lists) => {
-            res.setHeader('Content-Type', 'application/json');
-            res.status(200).json(lists[0]);
+            .find({_id: museumId})
+            .toArray((err, result) => {
+                if (err) {
+                    res.status(400).json({message: err});
+                } else {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.status(200).send(result[0]);    
+                }
         });
     } catch (err) {
-        res.status(500).json({message: err.message});
+        res.status(500).json({message: err.message || 'An error occurred while getting the museum'});
+    }
+
     }
 };
 
 const createOne = async (req, res) => {
     // #swagger.description = "Create one museum in collection"
     try {
+            // Validate request values
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+        }
         const museum = {
             museumName: req.body.museumName,
             streetAddr: req.body.streetAddr,
@@ -56,16 +76,24 @@ const createOne = async (req, res) => {
         if (response.acknowledged) {
             res.status(201).json(response);
         } else {
-            res.status(500).json(response.error);
+            res.status(500).send();
         }
     } catch (err) {
-        res.status(500).json({message: err.message});
+        res.status(500).json({message: err.message || 'An error occured while creating a new Museum'});
     }
 };
 
 const updateOne = async (req, res) => {
+    if(!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('A valid museum id must be used to update a museum');
+    } else {
     // #swagger.description = "Updates one specific museum in collection selected by id"
     try {
+        // Validate request values
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }            
         const museumId = new ObjectId(req.params.id);
         const museum = {
             museumName: req.body.museumName,
@@ -80,7 +108,7 @@ const updateOne = async (req, res) => {
         .getDb()
         .db('GBSites')
         .collection('museums')
-        .replaceOne({_id: museumId}, museum);
+        .replaceOne({_id: museumId}, museum)
         // console.log(response);
         if (response.modifiedCount > 0) {
             console.log(res.status);
@@ -89,13 +117,22 @@ const updateOne = async (req, res) => {
             res.status(500).json(response.error);
         }
     } catch (err) {
-        res.status(500).json(response.error);
+        res.status(500).json({message: err.message || 'An error occured while updating the museum'});
+    }
     }
 };
 
 const deleteOne = async (req, res) => {
+    if(!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('A valid museum id must be used to delete a museum');
+    } else {
     // #swagger.description = "Deletes one specific museum in collection selected by id"
     try {
+        // Validate request values
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+        }
         const museumId = new ObjectId(req.params.id);
         const response = await mongodb
         .getDb()
@@ -109,7 +146,8 @@ const deleteOne = async (req, res) => {
             res.status(500).json(response.error);
         }
     } catch (err) {
-        res.status(500).json({message: err.message});
+        res.status(500).json({message: err.message || 'An error occured while deleting the museum'});
+    }
     }
 };
 

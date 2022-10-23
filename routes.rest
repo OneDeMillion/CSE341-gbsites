@@ -3,20 +3,27 @@ GET http://localhost:8080/museums
 
 ### GET ONE MUSEUM
 
-GET http://localhost:8080/museums/6349dc293f4e419311c4352a
+GET http://localhost:8080/museums/634b5556faeb1aef0501fe1e
+
+### GET bad museum request
+
+GET http://localhost:8080/museums/ABC
 
 ### GET ALL CASTLES
 GET http://localhost:8080/castles
 
 ### GET ONE MUSEUM
-GET http://localhost:8080/castles/6349f5703f4e419311c43533
+GET http://localhost:8080/localhost:8080/museums/ABC/6349f5703f4e419311c43533
+
+#### get a incorrect castle
+GET http://localhost:8080/castles/23
 
 ### POST A MUSEUM
 POST http://localhost:8080/museums HTTP/1.1
 Content-Type: application/json
 
 {
-    "museumName": "Imperial War Museum",
+    "museumName": " Imperial War Museum II Test ",
     "streetAddr": "Lambeth Road",
     "cityAddr": "London",
     "postcode": "Se1 6HZ",
@@ -40,22 +47,22 @@ Content-Type: application/json
 }
 
 ### PUT A MUSEUM
-PUT http://localhost:8080/museums/634b0a7add29b52a753cc926 HTTP/1.1
+PUT http://localhost:8080/museums/6353306203b616548240e894 HTTP/1.1
 Content-Type: application/json
 
 {
-    "museumName": "Imperial War Museum", "streetAddr": 
+    "museumName": "Another Test Imperial War Museum Again", "streetAddr": 
     "Lambeth Road", "cityAddr": "London", "postcode": "SE1 6HZ", "phoneNum": "442074165000", "website": "www.iwm.org.uk", "description": "FREE museum, dedicated to exploring conflict from WWI to present day."
 }
 
 ### PUT A CASTLE
-PUT http://localhost:8080/castles/6349f49b3f4e419311c43532 HTTP/1.1
+PUT http://localhost:8080/castles/6353306203b616548240e894 HTTP/1.1
 Content-Type: application/json
 
 {
-    "castleName": "Windsor Castle",
-    "streetAddr": "Castle Hill",
-    "cityAddr":" Windsor",
+    "castleName": "Not Windsor Castle",
+    "streetAddr": "A Street",
+    "cityAddr":" London",
     "postcode": "SL4 1PD",
     "phoneNum": "443031237334",
     "website": "www.royalcollection.org.uk",
@@ -63,12 +70,12 @@ Content-Type: application/json
 }
 
 ### DELETE A MUSEUM
-DELETE http://localhost:8080/museums/634b065af71cc20c247c8cbc HTTP/1.1
+DELETE http://localhost:8080/museums/635479698418e2700871c52d HTTP/1.1
 
 ### DELETE A CASTLE
 DELETE http://localhost:8080/castles/634b0700f71cc20c247c8cc0 HTTP/1.1
 
-/// RENDER MUSEUMS
+/// RENDER MUSEUM
 ### GET ALL MUSEUMS
 GET https://cse341-gbsites.onrender.com/museums
 
@@ -142,5 +149,5 @@ Content-Type: application/json
 }
 
 ### DELETE ONE MUSEUM
-DELETE https://cse341-gbsites.onrender.com/castles/634b06bef71cc20c247c8cbf HTTP/1.1
+DELETE https://cse341-gbsites.onrender.com/castles/635479698418e2700871c52d HTTP/1.1
 

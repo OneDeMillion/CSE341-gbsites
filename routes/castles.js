@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const validation = require('../middleware/validation');
+
 
 const castlesController = require('../controllers/castles');
 
@@ -10,10 +12,10 @@ router.get('/', castlesController.getAll);
 router.get('/:id', castlesController.getOne);
 
 // creates a new castle document
-router.post('/', castlesController.createOne);
+router.post('/', validation.castleValidation, castlesController.createOne);
 
 // updates a castle document identified by id
-router.put('/:id', castlesController.updateOne);
+router.put('/:id', validation.castleValidation, castlesController.updateOne);
 
 // deletes a castle document identified by id
 router.delete('/:id', castlesController.deleteOne);

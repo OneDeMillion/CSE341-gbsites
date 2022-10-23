@@ -1,44 +1,62 @@
 const mongodb = require('../initializers/db');
 const ObjectId = require('mongodb').ObjectId;
+const { validationResult } = require('express-validator');
 
-const getAll = async (req, res) => {
+
+const getAll =  (req, res) => {
     // #swagger.description = "Gets all castles in collection"
     try {
-        const result = await mongodb
+         mongodb
         .getDb()
         .db('GBSites')
         .collection('castles')
-        .find();
-    result.toArray().then((lists) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(lists);
-    });    
+        .find()
+        .toArray((err,lists) => {
+            if (err) {
+                res.status(400).json({ message: err});
+            } else {
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).json(lists);
+            }
+        });    
     } catch (err) {
-        res.status(500).json({message: err.message});
+        res.status(500).json({message: err.message || 'An error occurred while getting the castles'});
     }
 };
 
 const getOne = async (req, res) => {
+    if(!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('A valid castle id must be used find a castle')
+    } else {
     // #swagger.description = "Gets one castle in collection selected by id"
-    try {
+    try {       
         const castleId = new ObjectId(req.params.id);
-        const result = await mongodb
+        mongodb
             .getDb()
             .db('GBSites')
             .collection('castles')
-            .find({_id: castleId});
-        result.toArray().then((lists) => {
-            res.setHeader('Content-Type', 'application/json');
-            res.status(200).json(lists[0]);
+            .find({_id: castleId})
+            .toArray((err, result) => {
+                if (err) {
+                    res.status(400).json({message: err});
+                } else {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.status(200).json(result[0]);
+                }
         });
     } catch (err) {
-        res.status(500).json({message: err.message});
+        res.status(500).json({message: err.message || 'An error occurred while getting a castle'});
+    }
     }
 };
 
 const createOne = async (req, res) => {
     // #swagger.description = "Creates one castle in collection"
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+        }
         const castle = {
             castleName: req.body.castleName,
             streetAddr: req.body.streetAddr,
@@ -59,13 +77,20 @@ const createOne = async (req, res) => {
             res.status(500).json(response.error);
         }
     } catch (err) {
-        res.status(500).json({message: err.message});
-    }
+        res.status(500).json({message: err.message || 'An error occurred while creating a castle'});
+    } 
 };
 
 const updateOne = async (req, res) => {
+    if(!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('A valid castle id must be used to update a castle');
+    } else {
     // #swagger.description = "Updates one specific castle in collection selected by id"
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+        }
         const castleId = new ObjectId(req.params.id);
         const castle = {
             castleName: req.body.castleName,
@@ -89,13 +114,22 @@ const updateOne = async (req, res) => {
             res.status(500).json(response.error);
         }
     } catch (err) {
-        res.status(500).json(response.error);
+        res.status(500).json({message: err.message || 'An error occured while updating a castle'});
     }
+    }
+
 };
 
 const deleteOne = async (req, res) => {
+    if(!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('A valid museum id must be used to delete a museum');
+    } else {
     // #swagger.description = "Deletes one specific castle in collection selected by id"
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+        }
         const castleId = new ObjectId(req.params.id);
         const response = await mongodb
         .getDb()
@@ -109,7 +143,8 @@ const deleteOne = async (req, res) => {
             res.status(500).json(response.error);
         }
     } catch (err) {
-        res.status(500).json({message: err.message});
+        res.status(500).json({message: err.message || 'An error occurred while deleting the castle'});
+    }
     }
 };
 

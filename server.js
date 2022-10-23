@@ -1,10 +1,11 @@
 require('dotenv').config();
+//const createError = require('http-errors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mongodb = require('./initializers/db'); 
 const port = process.env.PORT || 8080;
-const swaggerAutogen = require('swagger-autogen')();
+//const swaggerAutogen = require('swagger-autogen')();
 
 //middlewares -- function that executes when a specific route is being hit
 app
@@ -15,7 +16,9 @@ app
     })
     .use('/', require('./routes'));
 
-
+process.on('uncaughtException', (err, origin) => {
+    console.log(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
+});
 
 mongodb.initDb((err) => {
     if (err) {
