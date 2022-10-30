@@ -5,7 +5,11 @@ const bodyParser = require('body-parser');
 const app = express();
 const { auth, requiresAuth } = require('express-openid-connect');
 const mongodb = require('./initializers/db'); 
+//const { graphql } = require('graphql');
+const schema = require('./schema/schema');
 const port = process.env.PORT || 8080;
+const { graphqlHTTP } = require('express-graphql');
+
 //const swaggerAutogen = require('swagger-autogen')();
 
 const config = {
@@ -39,9 +43,21 @@ app
     })
     .use('/', require('./routes'));
 
+
+app
+    .use('/graphql', graphqlHTTP({
+        //directs express-graphql to use this schema to map out the graph
+        schema,
+        //direct express-graphql to use graphiql when goto '/graphql' address in the browser 
+        //which provides an interface to make GraphQl queries
+        graphiql:true
+}));
+    
+
 process.on('uncaughtException', (err, origin) => {
     console.log(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
 });
+
 
 mongodb.initDb((err) => {
     if (err) {
