@@ -12,13 +12,7 @@ var museums = [
     { id: 3, museumName:"Plague Museum", streetAddress:"Plague Street", cityAddress:"Plaguetown", postcode:"PL1 TO2", phoneNum:44229998888, website:"www.plague.museum.co.uk", description:"Learn of all of the GB's plagues" }
 ]
 
-var reviews = [
-    { id: 1, review: "Interesting museum, but more for adults", museumId: 1 },
-    { id: 2, review: "How did I not know there were this many battles?!?! Can't wait to go back!", museumId: 1},
-    { id: 3, review: "This is the best museum in all of the UK! Everyone should visit here!", museumId: 2},
-    { id: 4, review: "I learned so much! I cried at the sacrifice! I was in awe at the bravery!", museumId: 2 },
-    { id: 5, review: "Lots of info, but very depressing!", museumId: 3 }
-]
+
 
 
 //RootQuery describes how users can use the graph and grab data.
@@ -33,57 +27,62 @@ const MuseumType = new GraphQLObjectType({
         streetAddress: {type: GraphQLString},
         cityAddress: {type: GraphQLString},
         postcode: {type: GraphQLString},
-        phoneNum: {type: GraphQLInt},
+        phoneNum: {type: GraphQLString},
         website: {type: GraphQLString},
-        description: {type: GraphQLString},
-        review: {
-            type: ReviewType,
-            resolve: (museum) => {
-                return reviews.find(review => museum.id === review.museumId)
-            }
-        }
+        description: {type: GraphQLString}
     })
 });
 
-const ReviewType = new GraphQLObjectType({
-    name: 'Review',
-    description: 'This represents a review of a museum',
-    fields: () => ({
-        id: { type: new GraphQLNonNull(GraphQLInt) },
-        review: {type: new GraphQLNonNull(GraphQLString) },
-        museums: { 
-            type: new GraphQLList(MuseumType),
-            resolve: (review) => {
-                return museums.filter(museum => museum.id === review.museumId)
-            } 
-        }
-    })
-});
+
 
 const RootQuery = new GraphQLObjectType({
     name: 'Query',
     description: 'Root Query',
     fields: () => ({    
+        museum: {
+            type: MuseumType,
+            description: 'A single museum',
+            args: {
+                id: { type: GraphQLInt }
+            },
+            resolve: (parent, args) => museums.find(museum => museum.id === args.id )
+        },
         museums: {
             type: new GraphQLList(MuseumType),
             description: 'List of All Museums',
             resolve: () => museums
-        },
-        reviews: {
-            type: new GraphQLList(ReviewType),
-            description: 'List of All Reviews',
-            resolve: () => reviews
         }
     })
 });
 
-
-
-
-
+const RootMutationType = new GraphQLObjectType({
+    name: 'Mutation',
+    description: 'Root Mutation',
+    fields: () => ({
+        addMuseum: {
+            type: MuseumType,
+            description: 'Add a Museum',
+            args: {
+                museumName: { type: new GraphQLNonNull(GraphQLString) },
+                streetAddress: { type: GraphQLString },
+                cityAddress: { type: GraphQLString },
+                postcode: { type: GraphQLString },
+                phoneNum: { type: GraphQLString },
+                website: { type: GraphQLString },
+                description: { type: GraphQLString }
+            },
+            resolve: (parent, args) => {
+                const museum = { id: museums.length + 1, museumName: args.museumName, streetAddress: args.streetAddress, cityAddress: args.cityAddress, postcode: args.postcode, phoneNum: args.phoneNum, website: args.website  }
+                museums.push(museum)
+                return museum
+            }
+        }
+    })
+});
 
 //Creating a new GraphQL Schema, with options query which defines query
 // will allow users to use when they are making request
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: RootMutationType
 });
