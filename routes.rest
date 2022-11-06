@@ -12,8 +12,8 @@ GET http://localhost:8080/museums/ABC
 ### GET ALL CASTLES
 GET http://localhost:8080/castles
 
-### GET ONE MUSEUM
-GET http://localhost:8080/localhost:8080/museums/ABC/6349f5703f4e419311c43533
+### GET ONE CASTLE
+GET http://localhost:8080/localhost:8080/castles/63548554fea44dc6a4822b03
 
 #### get a incorrect castle
 GET http://localhost:8080/castles/23
@@ -47,7 +47,7 @@ Content-Type: application/json
 }
 
 ### PUT A MUSEUM
-PUT http://localhost:8080/museums/6353306203b616548240e894 HTTP/1.1
+PUT http://localhost:8080/museums/63548554fea44dc6a4822b03 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -56,7 +56,7 @@ Content-Type: application/json
 }
 
 ### PUT A CASTLE
-PUT http://localhost:8080/castles/6353306203b616548240e894 HTTP/1.1
+PUT http://localhost:8080/castles/63543e5127d9db722cb1e740 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -97,7 +97,7 @@ Content-Type: application/json
 }
 
 ### UPDATE ONE MUSEUM
-PUT https://cse341-gbsites.onrender.com/museums/6349e0d13f4e419311c4352f HTTP/1.1
+PUT https://cse341-gbsites.onrender.com/museums/63548554fea44dc6a4822b03 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -111,16 +111,16 @@ Content-Type: application/json
 }
 
 ### DELETE ONE MUSEUM
-DELETE https://cse341-gbsites.onrender.com/museums/634b05d2f71cc20c247c8cbb HTTP/1.1
+DELETE https://cse341-gbsites.onrender.com/museums/63548554fea44dc6a4822b03 HTTP/1.1
 
 /// RENDER CASTLES
 ### GET ALL CASTLES
 GET https://cse341-gbsites.onrender.com/castles
 
-### GET ONE MUSEUM BY ID
+### GET ONE CASTLE BY ID
 GET https://cse341-gbsites.onrender.com/castles/6349f37b3f4e419311c43531 
 
-### CREATE ONE MUSEUM
+### CREATE ONE CASTLE
 POST https://cse341-gbsites.onrender.com/castles HTTP/1.1
 Content-Type: application/json
 
@@ -134,8 +134,8 @@ Content-Type: application/json
     "description": "Dating back to 1380 at mouth of Dart Estuary, it was an artillary fort, including an iron chain that could stretch the harbour."
 }
 
-### UPDATE ONE MUSEUM
-PUT https://cse341-gbsites.onrender.com/castles/634b0a87dd29b52a753cc927 HTTP/1.1
+### UPDATE ONE CASTLE
+PUT https://cse341-gbsites.onrender.com/castles/634b06bef71cc20c247c8cbf HTTP/1.1
 Content-Type: application/json
 
 {
@@ -148,6 +148,6 @@ Content-Type: application/json
     "description":"Experience what life was like for Henvry the VIII and his wives in his baroque palace"
 }
 
-### DELETE ONE MUSEUM
-DELETE https://cse341-gbsites.onrender.com/castles/635479698418e2700871c52d HTTP/1.1
+### DELETE ONE CASTLE
+DELETE https://cse341-gbsites.onrender.com/castles/634b06bef71cc20c247c8cbf HTTP/1.1
 
