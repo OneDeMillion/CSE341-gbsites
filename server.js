@@ -13,7 +13,7 @@ const { graphqlHTTP } = require('express-graphql');
 //const swaggerAutogen = require('swagger-autogen')();
 
 const config = {
-  authRequired: true,
+  authRequired: false,
   auth0Logout: true,
   secret: process.env.SECRET,
   baseURL: process.env.BASE_URL,
